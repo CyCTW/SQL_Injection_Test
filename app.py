@@ -3,6 +3,8 @@ from flask import request, render_template
 import os
 from dotenv import load_dotenv
 from flask_sqlalchemy import SQLAlchemy
+import logging
+
 load_dotenv()
 
 db = SQLAlchemy()
@@ -14,6 +16,8 @@ DB_NAME = os.getenv('DB_NAME')
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{DB_USER}:{DB_PASS}@{DB_HOST}:3306/{DB_NAME}"
+app.logger.setLevel(logging.INFO)
+
 db.init_app(app)
 
 @app.route('/login', methods=['POST', 'GET'])
@@ -34,8 +38,8 @@ def login():
       else:
         error = 'Invalid username or password'
     return render_template('login.html', error=error) 
-  except pymysqlpe as e:
-    print(e)
+  except Exception as e:
+    app.logger.info("Error:")
     app.logger.info(str(e))
     return "Database error", 400
 
