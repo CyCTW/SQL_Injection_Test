@@ -7,4 +7,4 @@ RUN pip install pipenv && pipenv install --system --deploy --ignore-pipfile
 COPY . /app
 EXPOSE 80
 
-CMD ["python", "app.py"]
+CMD ["gunicorn", "--workers=5", "--worker-class=gevent", "--bind=0.0.0.0:80", "app:app"]

@@ -9,6 +9,8 @@ mysql-connector-python = "*"
 python-dotenv = "*"
 flask-sqlalchemy = "*"
 pymysql = "*"
+gunicorn = "*"
+gevent = "*"
 
 [requires]
 python_version = "3.8"
